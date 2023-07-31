@@ -4,11 +4,20 @@ const express = require('express');
 const path = require('path');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
+const mongoose = require("mongoose");
 
 const indexRouter = require('./routes/index');
-const usersRouter = require('./routes/users');
 
 const app = express();
+
+// Set up mongoose connection
+mongoose.set("strictQuery", false);
+async function connectDb() {
+  await mongoose.connect(process.env.MONGODB_URI);
+}
+connectDb()
+  .then(console.log('Connected to MongoDB'))
+  .catch((err) => console.error('Failed to connect to MongoDB', err));
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -21,7 +30,6 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
-app.use('/users', usersRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
