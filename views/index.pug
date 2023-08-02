@@ -3,11 +3,14 @@ extends layout
 block content
   h1= title
 
-  if (user)
-    p Welcome #{user.full_name}!
+  if currentUser
+    p Welcome #{currentUser.full_name}!
+    p Membership Status: #{currentUser.membership}
     button
       a(href='/logout') Log Out
   else
     p Welcome to #{title}
     button 
       a(href='/signup') Sign Up
+    button
+      a(href='/login') Log In

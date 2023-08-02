@@ -14,6 +14,17 @@ const User = require('./models/User');
 
 const indexRouter = require('./routes/index');
 const signUpRouter = require('./routes/signup');
+const logInRouter = require('./routes/login');
+const logOutRouter = require('./routes/logout');
+
+// Set up mongoose connection
+mongoose.set("strictQuery", false);
+async function connectDb() {
+  await mongoose.connect(process.env.MONGODB_URI);
+}
+connectDb()
+  .then(console.log('Connected to MongoDB'))
+  .catch((err) => console.error('Failed to connect to MongoDB...', err));
 
 passport.use(
   new LocalStrategy(async(username, password, done) => {
@@ -53,15 +64,6 @@ passport.deserializeUser(async function(id, done) {
 
 const app = express();
 
-// Set up mongoose connection
-mongoose.set("strictQuery", false);
-async function connectDb() {
-  await mongoose.connect(process.env.MONGODB_URI);
-}
-connectDb()
-  .then(console.log('Connected to MongoDB'))
-  .catch((err) => console.error('Failed to connect to MongoDB...', err));
-
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug');
@@ -83,6 +85,8 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
 app.use('/signup', signUpRouter);
+app.use('/login', logInRouter);
+app.use('/logout', logOutRouter);
 
 // catch 404 and forward to error handler
 app.use(function(_req, _res, next) {

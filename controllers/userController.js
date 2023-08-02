@@ -2,6 +2,7 @@ const { body, validationResult } = require("express-validator");
 const asyncHandler = require("express-async-handler");
 const User = require('../models/User');
 const bcrypt = require('bcryptjs');
+const passport = require("passport");
 
 exports.sign_up_get = (_req, res) => {
   res.render("signup_form", { title: "Sign Up" });
@@ -66,3 +67,55 @@ exports.sign_up_post = [
         };
   }),
 ];
+
+exports.log_in_get = (_req, res) => {
+  res.render("login_form", { title: "Log In" });
+};
+
+exports.log_in_post = [
+  // Validate and sanitize fields.
+  body("username", "Invalid username")
+    .trim()
+    .isLength({ min: 1 })
+    .escape(),
+  body("password", "Invalid password")
+    .trim()
+    .isLength({ min: 1 })
+    .escape(),
+
+  // Process request after validation and sanitization.
+    asyncHandler(async (req, res, next) => {
+        try {
+            // Extract the validation errors from a request.
+            const errors = validationResult(req);
+                
+            if (!errors.isEmpty()) {
+                // There are errors. Render form again with sanitized values/errors messages.
+                res.render("login_form", {
+                    title: "Log In",
+                    errors: errors.array(),
+                });
+                return;
+            } else {
+                // Data from form is valid.
+
+                // Log the user in.
+                passport.authenticate('local', {
+                  successRedirect: '/',
+                  failureRedirect: '/'
+                })(req, res, next);
+            }
+        } catch(err) {
+            return next(err);
+        };
+  }),
+];
+
+exports.log_out_get = (req, res, next) => {
+  req.logout(function (err) {
+    if (err) {
+      return next(err);
+    }
+    res.redirect('/');
+  })
+}
