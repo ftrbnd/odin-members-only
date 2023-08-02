@@ -8,12 +8,12 @@ block content
     p Membership Status: #{currentUser.membership}
     if currentUser.membership !== 'premium'
       button
-        a(href='/upgrade') Become a Premium Member
+        a(href='/user/upgrade') Become a Premium Member
     button
-      a(href='/logout') Log Out
+      a(href='/user/logout') Log Out
   else
     p Welcome to #{title}
     button 
-      a(href='/signup') Sign Up
+      a(href='/user/signup') Sign Up
     button
-      a(href='/login') Log In
+      a(href='/user/login') Log In

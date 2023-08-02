@@ -13,10 +13,7 @@ const LocalStrategy = require('passport-local').Strategy;
 const User = require('./models/User');
 
 const indexRouter = require('./routes/index');
-const signUpRouter = require('./routes/signup');
-const logInRouter = require('./routes/login');
-const logOutRouter = require('./routes/logout');
-const upgradeRouter = require('./routes/upgrade');
+const userRouter = require('./routes/user');
 
 // Set up mongoose connection
 mongoose.set('strictQuery', false);
@@ -85,10 +82,7 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
-app.use('/signup', signUpRouter);
-app.use('/login', logInRouter);
-app.use('/logout', logOutRouter);
-app.use('/upgrade', upgradeRouter);
+app.use('/user', userRouter);
 
 // catch 404 and forward to error handler
 app.use(function (_req, _res, next) {
