@@ -9,7 +9,7 @@ block content
         label(for='secret') Secret Passcode:
         input#secret.form-control(type='text', placeholder='...' name='secret')
       button.btn.btn-primary(type='submit') Submit
-  if currentUser.membership === 'premium'
+  else if currentUser.membership === 'premium'
     p You are already a premium member!
     button
       a(href='/') Go Back
