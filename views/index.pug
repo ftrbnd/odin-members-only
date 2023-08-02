@@ -6,6 +6,9 @@ block content
   if currentUser
     p Welcome #{currentUser.full_name}!
     p Membership Status: #{currentUser.membership}
+    if currentUser.membership !== 'premium'
+      button
+        a(href='/upgrade') Become a Premium Member
     button
       a(href='/logout') Log Out
   else

@@ -1,0 +1,24 @@
+extends layout
+
+block content
+  h1 #{title}
+
+  if currentUser.membership === 'basic'
+    form(method='POST' action='')
+      div.form-group
+        label(for='secret') Secret Passcode:
+        input#secret.form-control(type='text', placeholder='...' name='secret')
+      button.btn.btn-primary(type='submit') Submit
+  if currentUser.membership === 'premium'
+    p You are already a premium member!
+    button
+      a(href='/') Go Back
+  else
+    p You are not logged in!
+    button
+      a(href='/') Go Back
+
+  if errors
+   ul
+    for error in errors
+     li!= error.msg
