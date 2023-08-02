@@ -14,6 +14,7 @@ const User = require('./models/User');
 
 const indexRouter = require('./routes/index');
 const userRouter = require('./routes/user');
+const messageRouter = require('./routes/message');
 
 // Set up mongoose connection
 mongoose.set('strictQuery', false);
@@ -83,6 +84,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
 app.use('/user', userRouter);
+app.use('/message', messageRouter);
 
 // catch 404 and forward to error handler
 app.use(function (_req, _res, next) {
