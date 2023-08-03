@@ -32,3 +32,6 @@ block content
         if currentUser && currentUser.membership === 'premium'
           p on #{message.timestamp_formatted}
           p by #{message.author.username}
+        if currentUser && currentUser.administrator
+          button
+            a(href=`/message/${message._id}/delete`) Delete

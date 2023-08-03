@@ -1,6 +1,5 @@
 const { body, validationResult } = require('express-validator');
 const asyncHandler = require('express-async-handler');
-const User = require('../models/User');
 const Message = require('../models/Message');
 
 exports.new_get = (_req, res) => {
@@ -44,3 +43,21 @@ exports.new_post = [
     }
   })
 ];
+
+exports.delete_get = asyncHandler(async (req, res, next) => {
+  const message = await Message.findById(req.params.id).populate('author').exec();
+
+  if (!message) {
+    res.redirect('/');
+  }
+
+  res.render('message_delete', {
+    title: 'Delete Message',
+    message: message
+  });
+});
+
+exports.delete_post = asyncHandler(async (req, res, next) => {
+  await Message.findByIdAndRemove(req.body.messageId);
+  res.redirect('/');
+});
