@@ -5,14 +5,14 @@ block content
   
   if currentUser && currentUser.administrator
     p Do you really want to delete this Message?
-        form(method='POST' action='')
-        div.form-group
-            input#messageId.form-control(type='hidden',name='messageId', required='true', value=message._id )
-            p Title: #[strong #{message.title}]
-            p Text: #{message.text}
-            p by #{message.author.username} on #{message.timestamp_formatted}
-
-        button.btn.btn-primary(type='submit') Delete
+    p Title: #[strong #{message.title}]
+    p Text: #{message.text}
+    p by #{message.author.username} on #{message.timestamp_formatted}
+    
+    form(method='POST' action='')
+      div.form-group
+        input#messageId.form-control(type='hidden',name='messageId', required='true', value=message._id )
+      button.btn.btn-primary(type='submit') Delete
 
   else
     p You do not have admin permissions!
