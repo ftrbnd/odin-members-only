@@ -21,10 +21,11 @@ block content
       a(href='/user/login') Log In
 
   h2 Message Board
-  each message in messages
-    div.message
-      h4 #{message.title} 
-      p "#{message.text}"
-      if currentUser && currentUser.membership === 'premium'
-        p on #{message.timestamp_formatted}
-        p by #{message.author.username}
+  div.messages
+    each message in messages
+      div.message
+        h4 #{message.title} 
+        p "#{message.text}"
+        if currentUser && currentUser.membership === 'premium'
+          p on #{message.timestamp_formatted}
+          p by #{message.author.username}
