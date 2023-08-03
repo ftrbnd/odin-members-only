@@ -1,0 +1,20 @@
+extends layout
+
+block content
+  h1 #{title}
+
+  if currentUser
+    form(method='POST' action='')
+      div.form-group
+        label(for='admin') Admin Passcode:
+        input#admin.form-control(type='text', placeholder='...' name='admin')
+      button.btn.btn-primary(type='submit') Submit
+  else
+    p You are not logged in!
+    button
+      a(href='/') Go Back
+
+  if errors
+   ul
+    for error in errors
+     li!= error.msg

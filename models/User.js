@@ -28,6 +28,10 @@ const UserSchema = new Schema(
       required: true,
       enum: ['premium', 'basic'],
       default: 'basic'
+    },
+    administrator: {
+      type: Boolean,
+      required: false
     }
   },
   { versionKey: false }

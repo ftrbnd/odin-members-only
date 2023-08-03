@@ -16,4 +16,8 @@ router.get('/upgrade', userController.upgrade_get);
 
 router.post('/upgrade', userController.upgrade_post);
 
+router.get('/admin', userController.admin_get);
+
+router.post('/admin', userController.admin_post);
+
 module.exports = router;

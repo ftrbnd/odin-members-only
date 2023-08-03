@@ -128,9 +128,48 @@ exports.upgrade_post = [
         return;
       } else {
         // User entered correct passcode to upgrade membership
-        console.log('user: ', req.user);
         await User.findByIdAndUpdate(req.user._id, {
           membership: 'premium'
+        });
+        res.redirect('/');
+      }
+    } catch (err) {
+      return next(err);
+    }
+  })
+];
+
+exports.admin_get = (_req, res) => {
+  res.render('admin_form', { title: 'Become an Administrator' });
+};
+
+exports.admin_post = [
+  // Validate and sanitize fields.
+  body('admin', 'Invalid').trim().isLength({ min: 1 }).escape(),
+
+  // Process request after validation and sanitization.
+  asyncHandler(async (req, res, next) => {
+    try {
+      // Extract the validation errors from a request.
+      const errors = validationResult(req);
+
+      if (!errors.isEmpty()) {
+        // There are errors. Render form again with sanitized values/errors messages.
+        res.render('admin_form', {
+          title: 'Become an Administrator',
+          errors: errors.array()
+        });
+        return;
+      } else if (req.body.admin !== process.env.ADMIN_PASSCODE) {
+        res.render('admin_form', {
+          title: 'Become an Administrator',
+          errors: [{ msg: 'Incorrect passcode, try again' }]
+        });
+        return;
+      } else {
+        // User entered correct passcode to upgrade membership
+        await User.findByIdAndUpdate(req.user._id, {
+          administrator: true
         });
         res.redirect('/');
       }

@@ -9,6 +9,9 @@ block content
     if currentUser.membership !== 'premium'
       button
         a(href='/user/upgrade') Become a Premium Member
+    if !currentUser.administrator
+      button
+        a(href='/user/admin') Become an Administrator
     button
       a(href='/message/new') New Message
     button
